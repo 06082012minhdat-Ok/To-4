@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tổ 4 Lớp 9A6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Be+Vietnam+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    box-sizing: border-box;
+    --sky: #EAF6F8;
+    --sky2: #EEF2FF;
+    --card: #FFFFFF;
+    --ink: #223140;
+    --muted: #64758A;
+    --mint: #1FB99E;
+    --blue: #3E7DFF;
+    --coral: #FF6B7A;
+    --line: #E3EBF1;
+    --shadow: rgba(62, 125, 255, 0.14);
+    --radius-lg: 20px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --sky: #0F171E; --sky2: #121A24; --card: #182430; --ink: #EAF2F8;
+      --muted: #93A5B8; --mint: #34D6BA; --blue: #6DA6FF; --coral: #FF8792;
+      --line: #263444; --shadow: rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --sky: #0F171E; --sky2: #121A24; --card: #182430; --ink: #EAF2F8;
+    --muted: #93A5B8; --mint: #34D6BA; --blue: #6DA6FF; --coral: #FF8792;
+    --line: #263444; --shadow: rgba(0,0,0,0.35);
+  }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); scroll-behavior: smooth; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100%;
+    background: linear-gradient(160deg, var(--sky) 0%, var(--sky2) 100%);
+    color: var(--ink);
+    font-family: 'Be Vietnam Pro', system-ui, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 1.25rem 1.25rem 4rem; }
+
+  /* ---- Thanh đăng nhập ---- */
+  .topbar { display: flex; justify-content: flex-end; align-items: center; min-height: 44px; margin-bottom: .5rem; }
+  .auth-user {
+    display: flex; align-items: center; gap: .55rem;
+    background: var(--card); border: 1px solid var(--line);
+    padding: .35rem .8rem .35rem .35rem; border-radius: 999px;
+    box-shadow: 0 6px 16px -12px var(--shadow);
+  }
+  .user-avatar {
+    width: 30px; height: 30px; border-radius: 50%; display: flex;
+    align-items: center; justify-content: center; color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--mint));
+    font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: .85rem;
+    flex: 0 0 auto;
+  }
+  .user-name { font-size: .85rem; font-weight: 600; max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .admin-badge {
+    font-size: .66rem; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, var(--coral), var(--blue));
+    padding: .18rem .55rem; border-radius: 999px; letter-spacing: .03em;
+    flex: 0 0 auto;
+  }
+  .logout-link {
+    border: none; background: none; cursor: pointer;
+    font-size: .78rem; color: var(--muted); text-decoration: underline;
+    padding: 0; font-family: inherit; flex: 0 0 auto;
+  }
+  .login-btn {
+    border: none; cursor: pointer; font-family: 'Baloo 2', sans-serif; font-weight: 700;
+    font-size: .85rem; color: #fff; background: linear-gradient(135deg, var(--blue), var(--mint));
+    padding: .55rem 1.25rem; border-radius: 999px;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .login-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -10px var(--shadow); }
+  .login-btn:active { transform: translateY(0) scale(.96); }
+  .login-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; box-shadow: none; }
+  .login-btn.ghost {
+    background: transparent; color: var(--blue); border: 1.5px solid var(--blue);
+  }
+
+  /* ---- Modal đăng nhập / đăng ký ---- */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 50;
+    background: rgba(18, 26, 32, 0.5);
+    backdrop-filter: blur(3px);
+    display: none; align-items: center; justify-content: center;
+    padding: 1rem; opacity: 0; transition: opacity .22s ease;
+    overflow-y: auto;
+  }
+  .modal-overlay.open { opacity: 1; }
+  .modal-card {
+    background: var(--card); border-radius: var(--radius-lg);
+    padding: 1.8rem 1.9rem; max-width: 380px; width: 100%;
+    box-shadow: 0 24px 48px -20px rgba(0,0,0,0.35);
+    transform: scale(.92) translateY(10px);
+    transition: transform .25s cubic-bezier(.2,.8,.2,1);
+    margin: auto;
+  }
+  .modal-overlay.open .modal-card { transform: scale(1) translateY(0); }
+  .modal-card h3 { font-family: 'Baloo 2', sans-serif; margin: 0 0 .3rem; color: var(--blue); }
+  .modal-card .modal-sub { font-size: .82rem; color: var(--muted); margin: 0 0 1rem; }
+
+  .auth-tabs { display: flex; gap: .4rem; background: var(--sky); border-radius: 999px; padding: .25rem; margin-bottom: 1.1rem; }
+  .auth-tab {
+    flex: 1; border: none; background: transparent; cursor: pointer; font-family: inherit;
+    font-weight: 700; font-size: .85rem; color: var(--muted); padding: .5rem .6rem; border-radius: 999px;
+    transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+  }
+  .auth-tab.active { background: var(--card); color: var(--blue); box-shadow: 0 6px 14px -8px var(--shadow); }
+
+  .auth-form { display: none; }
+  .auth-form.active { display: block; }
+  .auth-message {
+    font-size: .8rem; margin: -.3rem 0 .7rem; display: none; line-height: 1.5;
+    padding: .55rem .7rem; border-radius: 10px;
+  }
+  .auth-message.show { display: block; }
+  .auth-message.error { color: var(--coral); background: color-mix(in srgb, var(--coral) 10%, transparent); }
+  .auth-message.success { color: var(--mint); background: color-mix(in srgb, var(--mint) 12%, transparent); }
+  .modal-actions { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; margin-top: .3rem; }
+
+  header.hero {
+    position: relative; overflow: hidden;
+    text-align: center; padding: 1.2rem 0 2.6rem;
+    animation: rise .7s ease-out both;
+  }
+  .blob { position: absolute; border-radius: 50%; filter: blur(40px); opacity: .35; z-index: 0; animation: float 11s ease-in-out infinite; }
+  .blob.b1 { width: 150px; height: 150px; background: var(--blue); top: -40px; left: -20px; }
+  .blob.b2 { width: 180px; height: 180px; background: var(--mint); top: 10px; right: -50px; animation-delay: -3.5s; }
+  .blob.b3 { width: 120px; height: 120px; background: var(--coral); bottom: -50px; left: 38%; animation-delay: -7s; }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-16px) scale(1.06); }
+  }
+  header.hero > * { position: relative; z-index: 1; }
+  .eyebrow {
+    display: inline-block;
+    font-weight: 600;
+    font-size: .95rem;
+    color: var(--blue);
+    background: color-mix(in srgb, var(--blue) 12%, transparent);
+    padding: .35rem 1rem;
+    border-radius: 999px;
+    margin: 0 0 .9rem;
+  }
+  h1 {
+    font-family: 'Baloo 2', 'Be Vietnam Pro', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.4rem, 7vw, 3.8rem);
+    line-height: 1.05;
+    margin: 0;
+    background: linear-gradient(100deg, var(--blue), var(--mint));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .65s ease, transform .65s ease; }
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
+
+  .intro {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 1.9rem 2.2rem;
+    max-width: 66ch;
+    margin: 0 auto 3.2rem;
+    box-shadow: 0 12px 28px -18px var(--shadow);
+  }
+  .intro .label {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--mint);
+    margin: 0 0 .6rem;
+  }
+  .intro p { margin: 0; color: var(--ink); }
+
+  h2.section-title {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 1.6rem;
+    text-align: center;
+    margin: 0 0 .5rem;
+  }
+
+  .sync-status { text-align: center; font-size: .78rem; color: var(--muted); margin: 0 0 1.4rem; }
+
+  .grid { display: grid; gap: 1.3rem; grid-template-columns: 1fr; margin-bottom: 3.5rem; }
+  @media (min-width: 620px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+  .card-slot { perspective: 1200px; height: 240px; animation: rise .5s ease-out both; }
+  .card {
+    position: relative; width: 100%; height: 100%; cursor: pointer;
+    transition: transform .55s cubic-bezier(.2,.8,.2,1);
+    transform-style: preserve-3d;
+  }
+  .card.flipped { transform: rotateY(180deg); }
+  .face {
+    position: absolute; inset: 0; border-radius: var(--radius-md); backface-visibility: hidden;
+    display: flex; flex-direction: column; padding: 1.3rem 1.2rem;
+    border: 1px solid var(--line); box-shadow: 0 10px 24px -16px var(--shadow);
+    transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  }
+  .card-slot:hover .face.front { transform: translateY(-4px) scale(1.02); border-color: var(--mint); box-shadow: 0 18px 30px -16px var(--shadow); }
+  .face.front { background: var(--card); align-items: center; text-align: center; justify-content: center; gap: .55rem; }
+
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.4rem; color: #fff;
+    background: linear-gradient(135deg, var(--blue), var(--mint));
+    overflow: hidden; flex: 0 0 auto;
+  }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .avatar .fallback { display: none; }
+
+  .name { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.05rem; margin: 0; }
+  .bio { color: var(--muted); font-size: .9rem; margin: 0; }
+  .tap-hint { font-size: .78rem; color: var(--blue); margin-top: .2rem; }
+
+  .face.back {
+    background: linear-gradient(135deg, var(--coral), var(--blue)); color: #fff;
+    transform: rotateY(180deg); align-items: center; justify-content: center; text-align: center; gap: .5rem;
+  }
+  .back .quote-label { font-size: .78rem; opacity: .85; letter-spacing: .02em; margin: 0; }
+  .back .quote { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.05rem; margin: 0; }
+
+  section.hot { margin-bottom: 3rem; }
+  .news-list { display: grid; gap: 1rem; }
+  .news-empty {
+    text-align: center; color: var(--muted); font-size: .9rem;
+    background: var(--card); border: 1px dashed var(--line); border-radius: var(--radius-md); padding: 1.6rem;
+  }
+  .skeleton {
+    height: 92px; border-radius: var(--radius-md);
+    background: linear-gradient(90deg, var(--line) 25%, var(--sky2) 37%, var(--line) 63%);
+    background-size: 400% 100%; animation: skeleton-loading 1.4s ease infinite;
+  }
+  @keyframes skeleton-loading { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+  .news-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 1.3rem 1.5rem; box-shadow: 0 10px 24px -18px var(--shadow);
+    animation: rise .45s ease-out both;
+  }
+  .news-card .news-top { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; flex-wrap: wrap; }
+  .news-card .news-title { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.1rem; margin: 0; color: var(--blue); }
+  .news-card .news-date { font-size: .82rem; color: var(--muted); white-space: nowrap; }
+  .news-author { display: flex; align-items: center; gap: .4rem; margin-top: .4rem; font-size: .8rem; color: var(--muted); }
+  .news-author .mini-avatar {
+    width: 22px; height: 22px; border-radius: 50%; flex: 0 0 auto;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, var(--blue), var(--mint));
+    color: #fff; font-size: .68rem; font-weight: 700; font-family: 'Baloo 2', sans-serif;
+  }
+  .news-card .news-desc { margin: .5rem 0 0; color: var(--ink); font-size: .95rem; white-space: pre-wrap; }
+  .news-card .news-file {
+    display: inline-flex; align-items: center; gap: .35rem; margin-top: .8rem; margin-right: .5rem;
+    font-size: .85rem; font-weight: 600; padding: .45rem 1rem; border-radius: 999px; text-decoration: none;
+    color: #fff; background: linear-gradient(135deg, var(--mint), var(--blue));
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .news-card .news-file:hover { transform: translateY(-2px); box-shadow: 0 10px 18px -10px var(--shadow); }
+  .news-card .file-thumb { display: block; max-width: 220px; max-height: 160px; border-radius: 10px; margin-top: .8rem; border: 1px solid var(--line); object-fit: cover; }
+  .admin-delete {
+    display: inline-flex; align-items: center; gap: .3rem; margin-top: .8rem;
+    border: 1px solid var(--coral); background: transparent; color: var(--coral);
+    font-size: .8rem; font-weight: 600; font-family: inherit; padding: .4rem .9rem; border-radius: 999px; cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .admin-delete:hover { background: var(--coral); color: #fff; transform: translateY(-2px); }
+  .admin-delete:disabled { opacity: .5; cursor: wait; transform: none; }
+
+  section.add-news {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 1.9rem 2.2rem; max-width: 640px; margin: 0 auto;
+    box-shadow: 0 12px 28px -18px var(--shadow);
+  }
+  section.add-news h3 { font-family: 'Baloo 2', sans-serif; font-size: 1.15rem; margin: 0 0 1rem; color: var(--mint); }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: .35rem; color: var(--muted); }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: .65rem .8rem; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--sky); color: var(--ink);
+    font-family: inherit; font-size: .95rem; transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px color-mix(in srgb, var(--blue) 18%, transparent); }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field input[type="file"] { padding: .5rem .6rem; background: var(--sky); cursor: pointer; }
+  .file-hint { font-size: .78rem; color: var(--muted); margin: .35rem 0 0; }
+  .file-hint.warn { color: var(--coral); font-weight: 600; }
+  .submit-btn {
+    border: none; cursor: pointer; font-family: 'Baloo 2', sans-serif; font-weight: 700;
+    font-size: .95rem; color: #fff; background: linear-gradient(135deg, var(--blue), var(--mint));
+    padding: .7rem 1.4rem; border-radius: 999px;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+  .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 12px 22px -10px var(--shadow); }
+  .submit-btn:active:not(:disabled) { transform: translateY(0) scale(.97); }
+  .submit-btn:disabled { opacity: .6; cursor: wait; }
+  .form-note { font-size: .78rem; color: var(--muted); margin-top: .8rem; }
+
+  .guest-note {
+    text-align: center; padding: 1.2rem 1.4rem; color: var(--muted); font-size: .92rem;
+    display: flex; flex-direction: column; align-items: center; gap: .8rem;
+  }
+
+  .pending-badge {
+    display: inline-block; margin-top: .5rem; font-size: .76rem; font-weight: 700;
+    color: #B8860B; background: color-mix(in srgb, #FFC94D 22%, transparent);
+    padding: .3rem .7rem; border-radius: 999px;
+  }
+  .approve-btn {
+    display: inline-flex; align-items: center; gap: .3rem; margin-top: .8rem; margin-right: .5rem;
+    border: 1px solid var(--mint); background: transparent; color: var(--mint);
+    font-size: .8rem; font-weight: 600; font-family: inherit; padding: .4rem .9rem; border-radius: 999px; cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .approve-btn:hover { background: var(--mint); color: #fff; transform: translateY(-2px); }
+  .approve-btn:disabled { opacity: .5; cursor: wait; transform: none; }
+
+  .maintenance-screen {
+    position: fixed; inset: 0; z-index: 40; display: none; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, var(--sky) 0%, var(--sky2) 100%); padding: 1.5rem;
+  }
+  .maintenance-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 2.4rem 2rem; max-width: 420px; text-align: center; box-shadow: 0 20px 40px -20px var(--shadow);
+  }
+  .maintenance-icon { font-size: 2.6rem; margin-bottom: .8rem; }
+  .maintenance-card h2 { font-family: 'Baloo 2', sans-serif; font-size: 1.3rem; margin: 0 0 .6rem; color: var(--blue); }
+  .maintenance-card p { margin: 0; color: var(--muted); font-size: .92rem; }
+  .maintenance-badge {
+    font-size: .66rem; font-weight: 700; color: #fff;
+    background: linear-gradient(135deg, #F5A623, var(--coral));
+    padding: .18rem .55rem; border-radius: 999px; letter-spacing: .02em; flex: 0 0 auto;
+  }
+
+  .active-users-panel {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 1.2rem 1.4rem; max-width: 780px; margin: 0 auto 2.2rem;
+    box-shadow: 0 14px 30px -20px var(--shadow);
+  }
+  .active-users-panel h3 { font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: 1.05rem; margin: 0 0 .8rem; color: var(--blue); }
+  .active-users-list { display: grid; gap: .5rem; }
+  .active-user-row { font-size: .85rem; color: var(--ink); background: var(--sky); border-radius: 10px; padding: .5rem .7rem; }
+  .active-user-row.pending-row { display: flex; justify-content: space-between; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .active-user-row.pending-row .approve-btn { margin: 0; }
+
+  .account-row {
+    display: flex; justify-content: space-between; align-items: center; gap: .8rem; flex-wrap: wrap;
+    background: var(--sky); border-radius: 10px; padding: .6rem .8rem;
+  }
+  .account-row.account-disabled { opacity: .6; }
+  .account-info { display: flex; flex-direction: column; gap: .1rem; min-width: 0; }
+  .account-info strong { font-size: .88rem; }
+  .account-meta { font-size: .76rem; color: var(--muted); word-break: break-word; }
+  .account-actions { display: flex; gap: .4rem; flex-wrap: wrap; flex: 0 0 auto; }
+  .account-actions button { margin: 0; white-space: nowrap; }
+  .role-btn {
+    border: 1px solid var(--blue); background: transparent; color: var(--blue);
+    font-size: .78rem; font-weight: 600; font-family: inherit; padding: .35rem .8rem; border-radius: 999px; cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .role-btn:hover { background: var(--blue); color: #fff; transform: translateY(-2px); }
+  .role-btn:disabled { opacity: .5; cursor: wait; transform: none; }
+  .lock-btn {
+    border: 1px solid var(--coral); background: transparent; color: var(--coral);
+    font-size: .78rem; font-weight: 600; font-family: inherit; padding: .35rem .8rem; border-radius: 999px; cursor: pointer;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .lock-btn:hover { background: var(--coral); color: #fff; transform: translateY(-2px); }
+  .lock-btn:disabled { opacity: .5; cursor: wait; transform: none; }
+  .active-empty { font-size: .85rem; color: var(--muted); margin: 0; }
+
+  .member-edit-btn {
+    position: absolute; top: .55rem; right: .55rem; z-index: 2;
+    width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line);
+    background: var(--card); cursor: pointer; font-size: .85rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 6px 14px -8px var(--shadow); transition: transform .15s ease;
+  }
+  .member-edit-btn:hover { transform: scale(1.08); }
+
+  .countdown-row { display: flex; align-items: center; gap: .55rem; margin-top: .8rem; }
+  .countdown-track { flex: 1; height: 6px; border-radius: 999px; background: var(--sky2); overflow: hidden; }
+  .countdown-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--mint), var(--coral)); transition: width 1s linear; }
+  .countdown-label { font-size: .72rem; color: var(--muted); white-space: nowrap; }
+
+  footer.hint { text-align: center; color: var(--muted); font-size: .85rem; margin-top: 3rem; }
+
+  /* ---- Tính năng mới: tin hết hạn + nút ảnh ---- */
+  .auth-user { flex-wrap: wrap; justify-content: center; max-width: 100%; }
+  .news-card.expired-card { border-style: dashed; opacity: .95; }
+  .expired-label { display: inline-block; margin-top: .6rem; font-size: .75rem; font-weight: 700; color: var(--coral); }
+  .extend-row { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; margin-top: .8rem; }
+  .extend-row .approve-btn, .extend-row .admin-delete { margin: 0; }
+  .extend-select {
+    font-family: inherit; font-size: .8rem; padding: .4rem .7rem; border-radius: 999px;
+    border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  }
+
+  /* ---- Trang chi tiết thành viên ---- */
+  body.detail-mode #activeUsersPanel, body.detail-mode #accountsPanel { display: none !important; }
+  .detail-btn {
+    margin-top: .5rem; border: 1.5px solid #fff; background: rgba(255,255,255,.2); color: #fff;
+    font-family: 'Baloo 2', sans-serif; font-weight: 700; font-size: .85rem;
+    padding: .4rem 1.1rem; border-radius: 999px; cursor: pointer; transition: background .15s ease, transform .15s ease;
+  }
+  .detail-btn:hover { background: rgba(255,255,255,.36); transform: translateY(-2px); }
+  .back-link-btn {
+    border: 1px solid var(--line); background: var(--card); color: var(--blue); cursor: pointer;
+    font-family: inherit; font-weight: 600; font-size: .88rem; padding: .5rem 1.1rem; border-radius: 999px;
+    margin-bottom: 1.2rem; box-shadow: 0 6px 14px -10px var(--shadow);
+  }
+  .detail-card, .detail-chart {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 1.5rem; box-shadow: 0 12px 28px -18px var(--shadow); margin-bottom: 1.5rem;
+  }
+  .detail-card { display: grid; grid-template-columns: 1fr; gap: 1.5rem; animation: rise .45s ease-out both; }
+  @media (min-width: 760px) { .detail-card { grid-template-columns: minmax(240px, 40%) 1fr; } }
+  .detail-photo {
+    position: relative; overflow: hidden; border-radius: var(--radius-md); aspect-ratio: 3 / 4; width: 100%;
+    background: linear-gradient(135deg, var(--blue), var(--mint)); display: flex; align-items: center; justify-content: center;
+  }
+  .detail-photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: blur(4px); transform: scale(1.06); }
+  .photo-fallback { font-family: 'Baloo 2', sans-serif; font-weight: 800; font-size: 5rem; color: #fff; align-items: center; justify-content: center; width: 100%; height: 100%; }
+  .detail-info h2 { font-family: 'Baloo 2', sans-serif; font-size: 1.8rem; margin: 0 0 .2rem; color: var(--blue); }
+  .detail-info .detail-bio { color: var(--muted); margin: 0 0 1rem; }
+  .detail-info .detail-text { white-space: pre-wrap; margin: 0; }
+  .detail-info .field textarea.dt-detail { min-height: 180px; }
+  .detail-chart h3 { font-family: 'Baloo 2', sans-serif; font-size: 1.15rem; margin: 0 0 .5rem; color: var(--mint); text-align: center; }
+  .radar-wrap { max-width: 560px; margin: 0 auto; }
+  .radar-svg { width: 100%; height: auto; display: block; }
+  .radar-ring { fill: none; stroke: color-mix(in srgb, var(--muted) 35%, transparent); stroke-width: 1.5; }
+  .radar-axis { stroke: color-mix(in srgb, var(--muted) 30%, transparent); stroke-width: 1.5; }
+  .radar-area { fill: color-mix(in srgb, var(--coral) 24%, transparent); stroke: var(--coral); stroke-width: 3; stroke-linejoin: round; }
+  .radar-dot { fill: var(--coral); stroke: var(--card); stroke-width: 2; }
+  .radar-tick { fill: var(--muted); font-size: 12px; font-weight: 700; paint-order: stroke; stroke: var(--card); stroke-width: 3px; }
+  .radar-label { fill: var(--ink); font-size: 15px; font-weight: 600; font-family: 'Be Vietnam Pro', sans-serif; }
+  .radar-val { fill: var(--muted); font-size: 12px; font-weight: 500; }
+  .skill-row { display: grid; grid-template-columns: 1fr 1.4fr 70px; gap: .6rem; align-items: center; margin-top: .6rem; }
+  .skill-row input[type="text"], .skill-row input[type="number"] {
+    width: 100%; padding: .5rem .7rem; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--sky); color: var(--ink); font-family: inherit; font-size: .9rem;
+  }
+  .skill-row input[type="range"] { width: 100%; accent-color: var(--coral); }
+  @media (max-width: 520px) { .skill-row { grid-template-columns: 1fr 70px; } .skill-row input[type="range"] { grid-column: 1 / -1; order: 3; } }
+  .skill-legend { display: grid; gap: .5rem; max-width: 460px; margin: .5rem auto 0; }
+  .skill-legend .lg-row { display: grid; grid-template-columns: 110px 1fr 44px; gap: .6rem; align-items: center; font-size: .85rem; }
+  .skill-legend .lg-bar { height: 6px; border-radius: 999px; background: var(--sky2); overflow: hidden; }
+  .skill-legend .lg-fill { height: 100%; background: linear-gradient(90deg, var(--mint), var(--coral)); }
+  .skill-legend .lg-val { color: var(--muted); text-align: right; }
+  .detail-save-row { display: flex; justify-content: flex-end; align-items: center; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap; }
+  .detail-msg { font-size: .82rem; color: var(--muted); }
+  .detail-msg.err { color: var(--coral); }
+</style>
+</head>
+<body>
+<div id="maintenanceScreen" class="maintenance-screen">
+  <div class="maintenance-card">
+    <div class="maintenance-icon">🛠️</div>
+    <h2>Trang đang được cập nhật hệ thống</h2>
+    <p>Tổ 4 Lớp 9A6 đang bảo trì trang web, vui lòng quay lại sau ít phút nhé!</p>
+  </div>
+</div>
+<div class="wrap" id="siteWrap">
+
+  <div class="topbar">
+    <div id="authGuest">
+      <button id="openLoginBtn" class="login-btn" type="button">Đăng nhập</button>
+    </div>
+    <div id="authUser" class="auth-user" style="display:none;">
+      <span id="userAvatar" class="user-avatar"></span>
+      <span id="userName" class="user-name"></span>
+      <span id="adminBadge" class="admin-badge" style="display:none;">ADMIN</span>
+      <span id="maintenanceBadge" class="maintenance-badge" style="display:none;">🔧 Đang bảo trì</span>
+      <button id="maintenanceToggleBtn" class="logout-link" type="button" style="display:none;">🛑 Dừng hoạt động</button>
+      <button id="photoToggleBtn" class="logout-link" type="button" style="display:none;">🖼️ Hiện ảnh thành viên</button>
+      <button id="signOutBtn" class="logout-link" type="button">Đăng xuất</button>
+    </div>
+  </div>
+
+  <section id="activeUsersPanel" class="active-users-panel reveal" style="display:none;">
+    <h3>🟢 Tài khoản đang hoạt động</h3>
+    <div id="activeUsersList" class="active-users-list"></div>
+  </section>
+
+  <section id="accountsPanel" class="active-users-panel reveal" style="display:none;">
+    <h3>🗂️ Quản lý tài khoản</h3>
+    <div id="accountsList" class="active-users-list"></div>
+  </section>
+
+  <div id="authModal" class="modal-overlay">
+    <div class="modal-card">
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-tab="login">Đăng nhập</button>
+        <button type="button" class="auth-tab" data-tab="register">Đăng ký</button>
+      </div>
+
+      <p id="authMessage" class="auth-message"></p>
+
+      <form id="loginForm" class="auth-form active">
+        <h3>Chào mừng trở lại</h3>
+        <p class="modal-sub">Đăng nhập bằng tài khoản đã xác minh Email để đăng tin.</p>
+        <div class="field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required placeholder="ban@gmail.com">
+        </div>
+        <div class="field">
+          <label for="loginPassword">Mật khẩu</label>
+          <input type="password" id="loginPassword" required placeholder="••••••••">
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="loginCancelBtn" class="logout-link">Hủy</button>
+          <button type="submit" id="loginSubmitBtn" class="login-btn">Đăng nhập</button>
+        </div>
+      </form>
+
+      <form id="registerForm" class="auth-form">
+        <h3>Tạo tài khoản</h3>
+        <p class="modal-sub">Sau khi đăng ký, hãy mở Email để xác minh trước khi đăng nhập.</p>
+        <div class="field">
+          <label for="regName">Họ tên</label>
+          <input type="text" id="regName" required placeholder="VD: Minh Đạt">
+        </div>
+        <div class="field">
+          <label for="regRole">Vai trò</label>
+          <select id="regRole">
+            <option value="student" selected>Học sinh</option>
+            <option value="teacher">Giáo viên (cần Admin duyệt)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="regEmail">Email</label>
+          <input type="email" id="regEmail" required placeholder="ban@gmail.com">
+        </div>
+        <div class="field">
+          <label for="regPassword">Mật khẩu</label>
+          <input type="password" id="regPassword" required minlength="6" placeholder="Tối thiểu 6 ký tự">
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="registerCancelBtn" class="logout-link">Hủy</button>
+          <button type="submit" id="registerSubmitBtn" class="login-btn">Đăng ký</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="memberModal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Sửa thông tin thành viên</h3>
+      <p class="modal-sub">Chỉ Admin mới thấy và chỉnh được nội dung này.</p>
+      <form id="memberEditForm">
+        <input type="hidden" id="memberEditId">
+        <div class="field">
+          <label for="memberEditName">Tên</label>
+          <input type="text" id="memberEditName" required>
+        </div>
+        <div class="field">
+          <label for="memberEditBio">Giới thiệu ngắn</label>
+          <textarea id="memberEditBio"></textarea>
+        </div>
+        <div class="field">
+          <label for="memberEditQuote">Thông tin cá nhân</label>
+          <textarea id="memberEditQuote"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button type="button" id="memberEditCancelBtn" class="logout-link">Hủy</button>
+          <button type="submit" id="memberEditSaveBtn" class="login-btn">Lưu thay đổi</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="homeView">
+  <header class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <span class="eyebrow">Lớp học của chúng tôi</span>
+    <h1>Tổ 4 Lớp 9A6</h1>
+  </header>
+
+  <div class="intro reveal">
+    <p class="label">Giới thiệu về Tổ 4</p>
+    <p>Tổ 4 lớp 9A6 là một tập thể nhỏ nhưng đầy năng lượng, luôn sẵn sàng hỗ trợ nhau trong học tập và các hoạt động của lớp. Mỗi thành viên đều mang một màu sắc riêng, cùng nhau tạo nên một Tổ 4 gắn kết, vui vẻ và không ngừng cố gắng.</p>
+  </div>
+
+  <section class="members reveal">
+    <div class="grid" id="memberGrid"></div>
+  </section>
+
+  <section class="hot reveal">
+    <h2 class="section-title">🔥 Tin Hot Của Tổ</h2>
+    <p id="syncStatus" class="sync-status"></p>
+    <div class="news-list" id="newsList"></div>
+  </section>
+
+  <section id="expiredPanel" class="hot reveal" style="display:none;">
+    <h2 class="section-title">⌛ Tin đã hết hạn</h2>
+    <p class="sync-status">Chỉ Admin thấy mục này. Có thể gia hạn để tin hiện lại, hoặc xóa vĩnh viễn.</p>
+    <div class="news-list" id="expiredList"></div>
+  </section>
+
+  <section class="add-news reveal">
+    <div id="addNewsGuest" class="guest-note" style="display:none;">
+      <p style="margin:0;">🔒 Vui lòng đăng nhập &amp; xác minh Email để đăng bài.</p>
+      <button type="button" class="login-btn" id="guestLoginBtn">Đăng nhập / Đăng ký</button>
+    </div>
+    <div id="addNewsForm" style="display:none;">
+      <h3>✍️ Đăng tin mới</h3>
+      <form id="newsForm">
+        <div class="field">
+          <label for="newsTitle">Tiêu đề</label>
+          <input type="text" id="newsTitle" required placeholder="VD: Lịch kiểm tra tuần tới">
+        </div>
+        <div class="field">
+          <label for="newsContent">Nội dung</label>
+          <textarea id="newsContent" required placeholder="Mô tả ngắn gọn nội dung tin..."></textarea>
+        </div>
+        <div class="field">
+          <label for="newsFile">Đính kèm tệp (ảnh, PDF, Word, Zip... — không bắt buộc)</label>
+          <input type="file" id="newsFile" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar,.mp3,.mp4,.txt">
+          <p class="file-hint" id="fileHint">Tối đa 50MB/tệp. Tệp trên 10MB sẽ cần Admin duyệt trước khi hiển thị công khai.</p>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Đăng tin</button>
+        <p class="form-note">Tên tác giả sẽ tự động lấy từ tài khoản đang đăng nhập. Tin sẽ <strong>tự động ẩn khỏi danh sách sau 24 giờ</strong> (Admin có thể gia hạn) và hiển thị ngay cho mọi người trên mọi thiết bị.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer class="hint">Chạm hoặc bấm vào thẻ thành viên để xem sở thích / câu nói yêu thích.</footer>
+  </div>
+  <div id="detailView" style="display:none;"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  /* ================================================================
+     CẤU HÌNH SUPABASE
+     SUPABASE_KEY là "publishable/anon key" — đúng loại được thiết kế để
+     đặt công khai trong mã nguồn phía trình duyệt. Quyền hạn thật sự do
+     Row Level Security (RLS) trên bảng "posts" và policy của bucket
+     "files" quyết định. Cần chạy các lệnh sau (1 lần) trong Supabase
+     SQL Editor để trang hoạt động đúng như thiết kế:
+
+       alter table posts enable row level security;
+
+       create policy "Ai cũng đọc được tin" on posts
+         for select using (true);
+
+       create policy "Chỉ người đã đăng nhập mới được đăng tin" on posts
+         for insert to authenticated with check (true);
+
+       create policy "Chỉ admin được xóa tin" on posts
+         for delete to authenticated
+         using (auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com');
+
+     Với Storage bucket "files": vào Storage → files → Policies, thêm
+     policy cho phép SELECT công khai (đọc), và INSERT cho role
+     "authenticated" (người đã đăng nhập mới upload được).
+
+     Bảng "members" (bạn đã tạo): bật RLS và thêm policy để ai cũng đọc
+     được nhưng chỉ admin sửa được:
+
+       alter table members enable row level security;
+
+       create policy "Ai cũng đọc được thành viên" on members
+         for select using (true);
+
+       create policy "Chỉ admin được sửa thành viên" on members
+         for update to authenticated
+         using (auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com');
+
+     LƯU Ý VỀ GIỚI HẠN DUNG LƯỢNG: gói Supabase miễn phí giới hạn TỐI ĐA
+     50MB/tệp, nên trang này đặt đúng mức 50MB làm giới hạn cứng. Muốn
+     nhận tệp lớn hơn 50MB thật sự cần nâng cấp gói Pro và tăng "Global
+     file size limit" trong Storage → Settings.
+
+     DUYỆT BÀI CHO TỆP LỚN: cần thêm cột "approved" vào bảng posts và
+     cho phép Admin cập nhật cột này:
+
+       alter table posts add column if not exists approved boolean not null default true;
+
+       create policy "Chỉ admin được duyệt/sửa tin" on posts
+         for update to authenticated
+         using (auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com'); */
+
+  /* ================================================================
+     THÊM MỚI — CHẠY 1 LẦN TRONG SUPABASE SQL EDITOR:
+
+       -- 1) Gia hạn tin: cột thời điểm hết hạn riêng (trống = tự tính created_at + 24h)
+       alter table posts add column if not exists expires_at timestamptz;
+
+       -- 2) Nút bật/tắt hiển thị ảnh thành viên cho mọi người
+       insert into settings (key, value) values ('show_photos', false)
+         on conflict (key) do nothing;
+
+     (Policy "Chỉ admin được duyệt/sửa tin" và "Chỉ admin được xóa tin" ở trên
+     cũng phải có, để Admin gia hạn / xóa vĩnh viễn được.) */
+
+  var SUPABASE_URL = "https://etwsjzteuxauvzgfofkx.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_X0NRXUD_VDxtI6Bhi3iUZw_Ym5KqUwS";
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  var POSTS_TABLE = 'posts';
+  var STORAGE_BUCKET = 'files';
+  var SETTINGS_TABLE = 'settings';
+  var PROFILES_TABLE = 'profiles';
+  var ONE_DAY_MS = 24 * 60 * 60 * 1000;
+  var MAX_FILE_BYTES = 50 * 1024 * 1024; // 50MB — đúng giới hạn thật của Supabase Free
+  var APPROVAL_THRESHOLD_BYTES = 10 * 1024 * 1024; // tệp trên 10MB cần Admin duyệt
+  var ADMIN_EMAIL = "06.08.2012.minhdat@gmail.com";
+
+  function setSyncStatus(text, isError) {
+    var el = document.getElementById('syncStatus');
+    if (!el) return;
+    el.textContent = text;
+    el.style.color = isError ? 'var(--coral)' : 'var(--muted)';
+  }
+
+  /* ============ DANH SÁCH THÀNH VIÊN (đọc/ghi từ bảng "members") ============ */
+  var members = [];
+
+  function fetchMembers() {
+    return sb.from('members').select('*').order('id', { ascending: true }).then(function (res) {
+      if (res.error) { console.warn('Không tải được danh sách thành viên:', res.error.message); return; }
+      members = res.data || [];
+      renderMembers();
+    });
+  }
+
+  function renderMembers() {
+    var grid = document.getElementById('memberGrid');
+    grid.innerHTML = '';
+    members.forEach(function (m, i) {
+      var n = m.id;
+      var slot = document.createElement('div');
+      slot.className = 'card-slot';
+      slot.style.animationDelay = (i * 0.06) + 's';
+      var editBtn = isAdmin() ? '<button type="button" class="member-edit-btn" data-id="' + n + '" title="Sửa thông tin">✏️</button>' : '';
+      var showPhoto = canSeeRealPhotos();
+      var avatarImg = showPhoto
+        ? ('<img src="' + n + '.jpg" alt="Ảnh thành viên" ' +
+            'onerror="this.onerror=null; this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';">')
+        : '';
+      slot.innerHTML =
+        '<div class="card">' +
+          '<div class="face front">' +
+            editBtn +
+            '<div class="avatar">' +
+              avatarImg +
+              '<span class="fallback" style="display:' + (showPhoto ? 'none' : 'flex') + ';align-items:center;justify-content:center;width:100%;height:100%;">' + n + '</span>' +
+            '</div>' +
+            '<p class="name"></p>' +
+            '<p class="bio"></p>' +
+            '<p class="tap-hint">Bấm để xem thêm ✨</p>' +
+          '</div>' +
+          '<div class="face back">' +
+            '<p class="quote-label">THÔNG TIN CÁ NHÂN</p>' +
+            '<p class="quote"></p>' +
+            '<button type="button" class="detail-btn">Xem chi tiết →</button>' +
+          '</div>' +
+        '</div>';
+      slot.querySelector('.name').textContent = m.name || '';
+      slot.querySelector('.bio').textContent = m.bio || '';
+      slot.querySelector('.quote').textContent = m.quote || '';
+      slot.querySelector('.detail-btn').addEventListener('click', function (e) {
+        e.stopPropagation();
+        location.hash = '#thanh-vien/' + n;
+      });
+      var card = slot.querySelector('.card');
+      card.addEventListener('click', function () { card.classList.toggle('flipped'); });
+      var eBtn = slot.querySelector('.member-edit-btn');
+      if (eBtn) {
+        eBtn.addEventListener('click', function (e) {
+          e.stopPropagation();
+          openMemberEdit(m);
+        });
+      }
+      grid.appendChild(slot);
+    });
+    if (detailId != null) renderDetail();
+  }
+
+  /* ---- Sửa thông tin thành viên (chỉ Admin) ---- */
+  var memberModal = document.getElementById('memberModal');
+  var memberEditSaveBtn = document.getElementById('memberEditSaveBtn');
+
+  function openMemberEdit(m) {
+    document.getElementById('memberEditId').value = m.id;
+    document.getElementById('memberEditName').value = m.name || '';
+    document.getElementById('memberEditBio').value = m.bio || '';
+    document.getElementById('memberEditQuote').value = m.quote || '';
+    memberModal.style.display = 'flex';
+    requestAnimationFrame(function () { memberModal.classList.add('open'); });
+  }
+  function closeMemberModal() {
+    memberModal.classList.remove('open');
+    setTimeout(function () { memberModal.style.display = 'none'; }, 200);
+  }
+  document.getElementById('memberEditCancelBtn').addEventListener('click', closeMemberModal);
+  memberModal.addEventListener('click', function (e) { if (e.target === memberModal) closeMemberModal(); });
+
+  document.getElementById('memberEditForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!isAdmin()) return;
+    var id = Number(document.getElementById('memberEditId').value);
+    var name = document.getElementById('memberEditName').value.trim();
+    var bio = document.getElementById('memberEditBio').value.trim();
+    var quote = document.getElementById('memberEditQuote').value.trim();
+    memberEditSaveBtn.disabled = true;
+    memberEditSaveBtn.textContent = 'Đang lưu...';
+    sb.from('members').update({ name: name, bio: bio, quote: quote }).eq('id', id).then(function (res) {
+      memberEditSaveBtn.disabled = false;
+      memberEditSaveBtn.textContent = 'Lưu thay đổi';
+      if (res.error) { alert('Lưu thất bại: ' + res.error.message); return; }
+      closeMemberModal();
+      fetchMembers();
+    });
+  });
+
+  /* ============ XÁC THỰC: SUPABASE AUTH THẬT ============ */
+  var currentUser = null; // { id, email, name, role, approved } — chỉ khác null khi đã đăng nhập VÀ email đã xác minh
+
+  function isAdmin() {
+    return !!(currentUser && currentUser.email === ADMIN_EMAIL);
+  }
+
+  function isApprovedTeacher() {
+    return !!(currentUser && currentUser.role === 'teacher' && currentUser.approved === true);
+  }
+
+  var showPhotosOn = false; // Admin bật => mọi người (kể cả khách) thấy ảnh thật
+
+  function canSeeRealPhotos() {
+    return isAdmin() || isApprovedTeacher() || showPhotosOn;
+  }
+
+  // Đảm bảo có hồ sơ (profiles) cho user vừa đăng nhập; tự tạo nếu chưa có.
+  function ensureProfile(user, meta) {
+    return sb.from(PROFILES_TABLE).select('*').eq('id', user.id).maybeSingle().then(function (res) {
+      if (res.error) { console.warn('Lỗi tải hồ sơ vai trò:', res.error.message); return { role: (meta && meta.role) || 'student', approved: true }; }
+      if (res.data) return res.data;
+      var role = (meta && meta.role === 'teacher') ? 'teacher' : 'student';
+      var newProfile = {
+        id: user.id, email: user.email, full_name: (meta && meta.full_name) || user.email,
+        role: role, approved: role !== 'teacher'
+      };
+      return sb.from(PROFILES_TABLE).insert([newProfile]).select().maybeSingle().then(function (ires) {
+        if (ires.error) { console.warn('Không tạo được hồ sơ vai trò:', ires.error.message); return newProfile; }
+        return ires.data || newProfile;
+      });
+    });
+  }
+
+  function renderAuthUI() {
+    var guest = document.getElementById('authGuest');
+    var userBox = document.getElementById('authUser');
+    if (currentUser) {
+      guest.style.display = 'none';
+      userBox.style.display = 'flex';
+      var initial = (currentUser.name || currentUser.email || '?').trim().charAt(0).toUpperCase();
+      document.getElementById('userAvatar').textContent = initial;
+      document.getElementById('userName').textContent = currentUser.name || currentUser.email || 'Người dùng';
+      document.getElementById('adminBadge').style.display = isAdmin() ? 'inline-block' : 'none';
+    } else {
+      guest.style.display = 'block';
+      userBox.style.display = 'none';
+    }
+  }
+
+  function renderAddNewsPanel() {
+    var guestBox = document.getElementById('addNewsGuest');
+    var formBox = document.getElementById('addNewsForm');
+    if (currentUser) {
+      guestBox.style.display = 'none';
+      formBox.style.display = 'block';
+    } else {
+      guestBox.style.display = 'flex';
+      formBox.style.display = 'none';
+    }
+  }
+
+  function signOut() {
+    sb.auth.signOut();
+  }
+  document.getElementById('signOutBtn').addEventListener('click', signOut);
+
+  /* ============ CHẾ ĐỘ BẢO TRÌ (chỉ Admin bật/tắt được) ============
+     Cần tạo bảng "settings" trong Supabase (1 lần):
+
+       create table if not exists settings (key text primary key, value boolean not null default false);
+       insert into settings (key, value) values ('maintenance', false) on conflict (key) do nothing;
+       alter table settings enable row level security;
+
+       create policy "Ai cũng đọc được trạng thái" on settings
+         for select using (true);
+
+       create policy "Chỉ admin được bật/tắt bảo trì" on settings
+         for update to authenticated
+         using (auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com');
+
+     Khi bật, mọi người TRỪ Admin sẽ chỉ thấy màn hình "đang cập nhật hệ
+     thống" thay vì nội dung trang — Admin vẫn thấy và dùng trang bình
+     thường để có thể tắt lại. */
+  var maintenanceOn = false;
+
+  /* ============ VAI TRÒ TÀI KHOẢN: HỌC SINH / GIÁO VIÊN ============
+     Cần tạo bảng "profiles" trong Supabase (1 lần):
+
+       create table if not exists profiles (
+         id uuid primary key references auth.users(id) on delete cascade,
+         email text,
+         full_name text,
+         role text not null default 'student' check (role in ('student','teacher')),
+         approved boolean not null default true,
+         disabled boolean not null default false
+       );
+       alter table profiles enable row level security;
+
+       create policy "Người dùng tự tạo hồ sơ của mình" on profiles
+         for insert to authenticated with check (auth.uid() = id);
+
+       create policy "Xem hồ sơ của mình, Admin xem tất cả" on profiles
+         for select to authenticated
+         using (auth.uid() = id or auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com');
+
+       create policy "Chỉ Admin duyệt hồ sơ giáo viên" on profiles
+         for update to authenticated
+         using (auth.jwt() ->> 'email' = '06.08.2012.minhdat@gmail.com');
+
+     Học sinh đăng ký thì "approved" tự động là true (dùng ngay sau khi
+     xác minh Email). Giáo viên đăng ký thì "approved" mặc định là
+     false — cần Admin duyệt thì mới được xem ảnh thật của học sinh
+     (trước khi duyệt, giáo viên chỉ thấy số như học sinh khác, để bảo
+     mật hình ảnh). */
+
+  function applyMaintenanceUI() {
+    var blocked = maintenanceOn && !isAdmin();
+    document.getElementById('siteWrap').style.display = blocked ? 'none' : '';
+    document.getElementById('maintenanceScreen').style.display = blocked ? 'flex' : 'none';
+    renderMaintenanceControls();
+    renderPhotoControls();
+  }
+
+  function renderPhotoControls() {
+    var btn = document.getElementById('photoToggleBtn');
+    if (!btn) return;
+    if (!isAdmin()) { btn.style.display = 'none'; return; }
+    btn.style.display = 'inline';
+    btn.textContent = showPhotosOn ? '🙈 Ẩn ảnh thành viên' : '🖼️ Hiện ảnh thành viên';
+    btn.title = showPhotosOn
+      ? 'Đang hiện ảnh cho mọi người. Bấm để chỉ Giáo viên/Admin xem ảnh.'
+      : 'Đang chỉ Giáo viên/Admin xem ảnh. Bấm để hiện ảnh cho mọi người.';
+  }
+
+  function renderMaintenanceControls() {
+    var badge = document.getElementById('maintenanceBadge');
+    var btn = document.getElementById('maintenanceToggleBtn');
+    if (!isAdmin()) { badge.style.display = 'none'; btn.style.display = 'none'; return; }
+    btn.style.display = 'inline';
+    btn.textContent = maintenanceOn ? '▶️ Mở lại hoạt động' : '🛑 Dừng hoạt động';
+    badge.style.display = maintenanceOn ? 'inline-block' : 'none';
+  }
+
+  function fetchMaintenanceStatus() {
+    return sb.from(SETTINGS_TABLE).select('value').eq('key', 'maintenance').maybeSingle().then(function (res) {
+      if (res.error) { console.warn('Không tải được trạng thái bảo trì:', res.error.message); return; }
+      maintenanceOn = !!(res.data && res.data.value === true);
+      applyMaintenanceUI();
+    });
+  }
+
+  document.getElementById('maintenanceToggleBtn').addEventListener('click', function () {
+    if (!isAdmin()) return;
+    var btn = this;
+    var newVal = !maintenanceOn;
+    btn.disabled = true;
+    sb.from(SETTINGS_TABLE).update({ value: newVal }).eq('key', 'maintenance').then(function (res) {
+      btn.disabled = false;
+      if (res.error) { alert('Cập nhật thất bại: ' + res.error.message); return; }
+      maintenanceOn = newVal;
+      applyMaintenanceUI();
+    });
+  });
+
+  try {
+    sb.channel('settings-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: SETTINGS_TABLE }, function () { fetchMaintenanceStatus(); })
+      .subscribe();
+  } catch (e) {
+    console.warn('Không bật được Realtime cho settings.', e);
+  }
+  setInterval(fetchMaintenanceStatus, 15000);
+
+  /* ---- Bật/tắt hiển thị ảnh thành viên (chỉ Admin) ---- */
+  function fetchPhotoStatus() {
+    return sb.from(SETTINGS_TABLE).select('value').eq('key', 'show_photos').maybeSingle().then(function (res) {
+      if (res.error) { console.warn('Không tải được trạng thái ảnh:', res.error.message); return; }
+      var v = !!(res.data && res.data.value === true);
+      if (v !== showPhotosOn) { showPhotosOn = v; renderMembers(); }
+      renderPhotoControls();
+    });
+  }
+
+  document.getElementById('photoToggleBtn').addEventListener('click', function () {
+    if (!isAdmin()) return;
+    var btn = this;
+    var newVal = !showPhotosOn;
+    btn.disabled = true;
+    sb.from(SETTINGS_TABLE).update({ value: newVal }).eq('key', 'show_photos').select().then(function (res) {
+      btn.disabled = false;
+      if (res.error) { alert('Cập nhật thất bại: ' + res.error.message); return; }
+      if (!res.data || !res.data.length) {
+        alert("Chưa có dòng 'show_photos' trong bảng settings. Hãy chạy đoạn SQL ghi chú ở đầu phần <script> rồi thử lại.");
+        return;
+      }
+      showPhotosOn = newVal;
+      renderMembers();
+      renderPhotoControls();
+    });
+  });
+
+  try {
+    sb.channel('photo-setting-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: SETTINGS_TABLE }, function () { fetchPhotoStatus(); })
+      .subscribe();
+  } catch (e) { console.warn('Không bật được Realtime cho nút ảnh.', e); }
+  setInterval(fetchPhotoStatus, 15000);
+
+  /* ---- Modal đăng nhập/đăng ký: mở, đóng, chuyển tab ---- */
+  var authModal = document.getElementById('authModal');
+  var authMessage = document.getElementById('authMessage');
+  var loginForm = document.getElementById('loginForm');
+  var registerForm = document.getElementById('registerForm');
+  var loginSubmitBtn = document.getElementById('loginSubmitBtn');
+  var registerSubmitBtn = document.getElementById('registerSubmitBtn');
+
+  function showAuthMessage(text, isError) {
+    authMessage.textContent = text;
+    authMessage.className = 'auth-message show ' + (isError ? 'error' : 'success');
+  }
+  function clearAuthMessage() {
+    authMessage.textContent = '';
+    authMessage.className = 'auth-message';
+  }
+
+  function switchAuthTab(tab) {
+    clearAuthMessage();
+    document.querySelectorAll('.auth-tab').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
+    });
+    loginForm.classList.toggle('active', tab === 'login');
+    registerForm.classList.toggle('active', tab === 'register');
+  }
+  document.querySelectorAll('.auth-tab').forEach(function (btn) {
+    btn.addEventListener('click', function () { switchAuthTab(btn.dataset.tab); });
+  });
+
+  function openModal(tab) {
+    switchAuthTab(tab || 'login');
+    authModal.style.display = 'flex';
+    requestAnimationFrame(function () { authModal.classList.add('open'); });
+  }
+  function closeModal() {
+    authModal.classList.remove('open');
+    setTimeout(function () { authModal.style.display = 'none'; }, 200);
+  }
+
+  document.getElementById('openLoginBtn').addEventListener('click', function () { openModal('login'); });
+  document.getElementById('guestLoginBtn').addEventListener('click', function () { openModal('login'); });
+  document.getElementById('loginCancelBtn').addEventListener('click', closeModal);
+  document.getElementById('registerCancelBtn').addEventListener('click', closeModal);
+  authModal.addEventListener('click', function (e) { if (e.target === authModal) closeModal(); });
+
+  /* ---- Đăng ký ---- */
+  registerForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearAuthMessage();
+    var name = document.getElementById('regName').value.trim();
+    var role = document.getElementById('regRole').value === 'teacher' ? 'teacher' : 'student';
+    var email = document.getElementById('regEmail').value.trim();
+    var password = document.getElementById('regPassword').value;
+    if (!name || !email || !password) return;
+
+    registerSubmitBtn.disabled = true;
+    registerSubmitBtn.textContent = 'Đang đăng ký...';
+    sb.auth.signUp({
+      email: email,
+      password: password,
+      options: { data: { full_name: name, role: role } }
+    }).then(function (res) {
+      registerSubmitBtn.disabled = false;
+      registerSubmitBtn.textContent = 'Đăng ký';
+      if (res.error) {
+        showAuthMessage('Đăng ký thất bại: ' + res.error.message, true);
+        return;
+      }
+      registerForm.reset();
+      switchAuthTab('login');
+      var successMsg = role === 'teacher'
+        ? 'Đăng ký thành công! Vui lòng mở hộp thư Email để xác minh. Vai trò Giáo viên cần Admin duyệt thêm (sau khi đăng nhập) trước khi xem được ảnh thật của học sinh.'
+        : 'Đăng ký thành công! Vui lòng mở hộp thư Email để nhấp vào link xác minh trước khi đăng nhập.';
+      showAuthMessage(successMsg, false);
+    });
+  });
+
+  /* ---- Đăng nhập ---- */
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearAuthMessage();
+    var email = document.getElementById('loginEmail').value.trim();
+    var password = document.getElementById('loginPassword').value;
+    if (!email || !password) return;
+
+    loginSubmitBtn.disabled = true;
+    loginSubmitBtn.textContent = 'Đang đăng nhập...';
+    sb.auth.signInWithPassword({ email: email, password: password }).then(function (res) {
+      loginSubmitBtn.disabled = false;
+      loginSubmitBtn.textContent = 'Đăng nhập';
+      if (res.error) {
+        showAuthMessage('Đăng nhập thất bại: ' + res.error.message, true);
+        return;
+      }
+      var user = res.data.user;
+      if (!user.email_confirmed_at) {
+        showAuthMessage('Tài khoản chưa được xác minh Email. Vui lòng kiểm tra hộp thư của bạn!', true);
+        sb.auth.signOut();
+        return;
+      }
+      loginForm.reset();
+      closeModal();
+    });
+  });
+
+  /* ---- Theo dõi trạng thái phiên đăng nhập (tự khôi phục khi tải lại trang) ---- */
+  sb.auth.onAuthStateChange(function (event, session) {
+    if (session && session.user && session.user.email_confirmed_at) {
+      var meta = session.user.user_metadata || {};
+      currentUser = {
+        id: session.user.id,
+        email: session.user.email,
+        name: meta.full_name || session.user.email,
+        role: meta.role === 'teacher' ? 'teacher' : 'student',
+        approved: true // giá trị tạm trong lúc chờ tải hồ sơ thật bên dưới
+      };
+      var userForProfile = session.user;
+      ensureProfile(userForProfile, meta).then(function (profile) {
+        if (!currentUser || currentUser.id !== userForProfile.id) return; // đã đổi phiên trong lúc chờ
+        if (profile.disabled === true) {
+          currentUser = null;
+          renderAuthUI();
+          renderAddNewsPanel();
+          renderMembers();
+          alert('Tài khoản của bạn đã bị Admin khóa.');
+          sb.auth.signOut();
+          return;
+        }
+        currentUser.role = profile.role || currentUser.role;
+        currentUser.approved = profile.approved !== false;
+        renderAuthUI();
+        renderMembers();
+        fetchAccountsList();
+      });
+    } else {
+      currentUser = null;
+    }
+    renderAuthUI();
+    renderAddNewsPanel();
+    renderNews();
+    renderMembers();
+    trackPresence();
+    renderActiveUsers(lastPresenceState);
+    applyMaintenanceUI();
+    fetchAccountsList();
+  });
+
+  /* ============ TÀI KHOẢN ĐANG HOẠT ĐỘNG (Realtime Presence) ============
+     Liệt kê TOÀN BỘ tài khoản đã từng đăng ký cần Service Role Key — khóa
+     quản trị bí mật của Supabase. Khóa đó KHÔNG được phép đặt trong mã
+     nguồn công khai trên GitHub Pages, vì bất kỳ ai xem mã nguồn trang
+     cũng lấy được và có toàn quyền trên dữ liệu. Vì vậy, phần này dùng
+     Supabase Realtime Presence — an toàn với anon key — để Admin xem
+     những ai ĐANG MỞ TRANG này ngay lúc này (phiên hoạt động thật sự). */
+  function getClientId() {
+    var k = 'to4_client_id';
+    var v = sessionStorage.getItem(k);
+    if (!v) { v = 'c_' + Math.random().toString(36).slice(2) + Date.now(); sessionStorage.setItem(k, v); }
+    return v;
+  }
+
+  var presenceChannel = sb.channel('online-users', { config: { presence: { key: getClientId() } } });
+  var lastPresenceState = {};
+
+  function trackPresence() {
+    if (currentUser) {
+      presenceChannel.track({ email: currentUser.email, name: currentUser.name, admin: isAdmin(), online_at: new Date().toISOString() });
+    } else {
+      presenceChannel.track({ email: null, name: null, admin: false, online_at: new Date().toISOString() });
+    }
+  }
+
+  function renderActiveUsers(state) {
+    var panel = document.getElementById('activeUsersPanel');
+    var listEl = document.getElementById('activeUsersList');
+    if (!isAdmin()) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+    var entries = [];
+    Object.keys(state || {}).forEach(function (key) {
+      state[key].forEach(function (p) { entries.push(p); });
+    });
+    listEl.innerHTML = '';
+    if (entries.length === 0) {
+      listEl.innerHTML = '<p class="active-empty">Chưa có ai đang mở trang.</p>';
+      return;
+    }
+    entries.forEach(function (p) {
+      var row = document.createElement('div');
+      row.className = 'active-user-row';
+      var icon = p.admin ? '👑 ' : (p.email ? '👤 ' : '💤 ');
+      var label = p.email ? ((p.name || p.email) + ' · ' + p.email) : 'Khách (chưa đăng nhập)';
+      row.textContent = icon + label;
+      listEl.appendChild(row);
+    });
+  }
+
+  presenceChannel
+    .on('presence', { event: 'sync' }, function () {
+      lastPresenceState = presenceChannel.presenceState();
+      renderActiveUsers(lastPresenceState);
+    })
+    .subscribe(function (status) {
+      if (status === 'SUBSCRIBED') trackPresence();
+    });
+
+  /* ============ QUẢN LÝ TÀI KHOẢN (chỉ Admin) ============
+     Lưu ý: xóa hẳn tài khoản khỏi Supabase Auth cần Service Role Key —
+     khóa quản trị bí mật KHÔNG được đặt trong mã nguồn công khai (ai
+     xem mã nguồn cũng lấy được, có thể xóa sạch dữ liệu). Vì vậy "Xóa
+     tài khoản" ở đây là KHÓA tài khoản một cách an toàn: người bị khóa
+     sẽ bị đăng xuất ngay và không thể đăng nhập/đăng bài cho tới khi
+     Admin mở khóa lại — tương đương xóa quyền truy cập mà không cần
+     khóa bí mật. Cần thêm cột "disabled" (1 lần):
+
+       alter table profiles add column if not exists disabled boolean not null default false;
+  */
+  function fetchAccountsList() {
+    if (!isAdmin()) { renderAccountsList([]); return Promise.resolve(); }
+    return sb.from(PROFILES_TABLE).select('*').order('full_name', { ascending: true })
+      .then(function (res) {
+        if (res.error) { console.warn('Không tải được danh sách tài khoản:', res.error.message); return; }
+        renderAccountsList(res.data || []);
+      });
+  }
+
+  function renderAccountsList(list) {
+    var panel = document.getElementById('accountsPanel');
+    var listEl = document.getElementById('accountsList');
+    if (!isAdmin()) { panel.style.display = 'none'; return; }
+    panel.style.display = 'block';
+    listEl.innerHTML = '';
+    if (!list || list.length === 0) {
+      listEl.innerHTML = '<p class="active-empty">Chưa có tài khoản nào đăng ký.</p>';
+      return;
+    }
+    list.forEach(function (p) {
+      var row = document.createElement('div');
+      row.className = 'account-row' + (p.disabled ? ' account-disabled' : '');
+
+      var info = document.createElement('div');
+      info.className = 'account-info';
+      var nameEl = document.createElement('strong');
+      nameEl.textContent = p.full_name || p.email;
+      var metaEl = document.createElement('span');
+      metaEl.className = 'account-meta';
+      var roleLabel = p.role === 'teacher' ? 'Giáo viên' : 'Học sinh';
+      var statusBits = [];
+      if (p.role === 'teacher' && p.approved === false) statusBits.push('⏳ Chờ duyệt');
+      if (p.disabled) statusBits.push('🚫 Đã khóa');
+      metaEl.textContent = p.email + ' · ' + roleLabel + (statusBits.length ? ' · ' + statusBits.join(' · ') : '');
+      info.appendChild(nameEl);
+      info.appendChild(metaEl);
+
+      var actions = document.createElement('div');
+      actions.className = 'account-actions';
+
+      if (p.role === 'teacher' && p.approved === false) {
+        var approveBtn = document.createElement('button');
+        approveBtn.type = 'button'; approveBtn.className = 'approve-btn'; approveBtn.textContent = '✅ Duyệt';
+        approveBtn.addEventListener('click', function () {
+          approveBtn.disabled = true;
+          sb.from(PROFILES_TABLE).update({ approved: true }).eq('id', p.id).then(function (res) {
+            if (res.error) { alert('Thất bại: ' + res.error.message); approveBtn.disabled = false; return; }
+            if (currentUser && currentUser.id === p.id) { currentUser.approved = true; renderAuthUI(); renderMembers(); }
+            fetchAccountsList();
+          });
+        });
+        actions.appendChild(approveBtn);
+      }
+
+      if (p.email !== ADMIN_EMAIL) {
+        var roleBtn = document.createElement('button');
+        roleBtn.type = 'button'; roleBtn.className = 'role-btn';
+        roleBtn.textContent = p.role === 'teacher' ? '🔁 Chuyển thành Học sinh' : '🔁 Chuyển thành Giáo viên';
+        roleBtn.addEventListener('click', function () {
+          var newRole = p.role === 'teacher' ? 'student' : 'teacher';
+          roleBtn.disabled = true;
+          sb.from(PROFILES_TABLE).update({ role: newRole, approved: true }).eq('id', p.id).then(function (res) {
+            if (res.error) { alert('Thất bại: ' + res.error.message); roleBtn.disabled = false; return; }
+            if (currentUser && currentUser.id === p.id) { currentUser.role = newRole; currentUser.approved = true; renderAuthUI(); renderMembers(); }
+            fetchAccountsList();
+          });
+        });
+        actions.appendChild(roleBtn);
+
+        var lockBtn = document.createElement('button');
+        lockBtn.type = 'button'; lockBtn.className = 'lock-btn';
+        lockBtn.textContent = p.disabled ? '♻️ Mở khóa' : '🗑️ Xóa (khóa) tài khoản';
+        lockBtn.addEventListener('click', function () {
+          var newDisabled = !p.disabled;
+          if (newDisabled && !confirm('Khóa tài khoản "' + (p.full_name || p.email) + '"? Người này sẽ bị đăng xuất ngay và không dùng được trang cho tới khi mở khóa lại.')) return;
+          lockBtn.disabled = true;
+          sb.from(PROFILES_TABLE).update({ disabled: newDisabled }).eq('id', p.id).then(function (res) {
+            if (res.error) { alert('Thất bại: ' + res.error.message); lockBtn.disabled = false; return; }
+            fetchAccountsList();
+          });
+        });
+        actions.appendChild(lockBtn);
+      }
+
+      row.appendChild(info);
+      row.appendChild(actions);
+      listEl.appendChild(row);
+    });
+  }
+
+  try {
+    sb.channel('profiles-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: PROFILES_TABLE }, function (payload) {
+        fetchAccountsList();
+        if (currentUser && payload && payload.new && payload.new.id === currentUser.id) {
+          if (payload.new.disabled === true) {
+            currentUser = null;
+            alert('Tài khoản của bạn đã bị Admin khóa.');
+            sb.auth.signOut();
+          } else {
+            currentUser.role = payload.new.role || currentUser.role;
+            currentUser.approved = payload.new.approved !== false;
+            renderAuthUI();
+            renderMembers();
+          }
+        }
+      })
+      .subscribe();
+  } catch (e) {
+    console.warn('Không bật được Realtime cho profiles.', e);
+  }
+  setInterval(fetchAccountsList, 20000);
+
+  /* ============ BÀI ĐĂNG: Supabase Database + Storage ============ */
+  var livePosts = [];
+
+  function sanitizeFileName(name) {
+    var noAccent = name.normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+    return noAccent.replace(/[^a-zA-Z0-9.\-_]/g, '_');
+  }
+
+  function uploadFileAndGetUrl(file) {
+    var path = Date.now() + '_' + sanitizeFileName(file.name);
+    return sb.storage.from(STORAGE_BUCKET).upload(path, file, {
+      cacheControl: '3600', upsert: false, contentType: file.type || 'application/octet-stream'
+    }).then(function (res) {
+      if (res.error) throw res.error;
+      var pub = sb.storage.from(STORAGE_BUCKET).getPublicUrl(path);
+      return pub.data.publicUrl;
+    });
+  }
+
+  function storagePathFromPublicUrl(url) {
+    if (!url) return null;
+    var marker = '/object/public/' + STORAGE_BUCKET + '/';
+    var idx = url.indexOf(marker);
+    if (idx === -1) return null;
+    try { return decodeURIComponent(url.slice(idx + marker.length)); } catch (e) { return null; }
+  }
+
+  // Xóa 1 bài (chỉ Admin): dọn tệp trong Storage (nếu có) rồi xóa dòng khỏi bảng posts.
+  function deletePostRow(id, fileUrl) {
+    var path = storagePathFromPublicUrl(fileUrl);
+    var removeFile = path ? sb.storage.from(STORAGE_BUCKET).remove([path]).catch(function () {}) : Promise.resolve();
+    return removeFile.then(function () {
+      return sb.from(POSTS_TABLE).delete().eq('id', id);
+    }).then(function (res) {
+      if (res.error) throw res.error;
+    });
+  }
+
+  var allPosts = [];
+  var lastPostsJson = '';
+  var extendChoice = {}; // nhớ số ngày Admin đã chọn để không bị reset khi danh sách tự làm mới
+
+  // Thời điểm hết hạn: dùng expires_at nếu Admin đã gia hạn, không thì created_at + 24h.
+  function getExpiry(r) {
+    if (r.expires_at) { var t = new Date(r.expires_at).getTime(); if (t) return t; }
+    var c = new Date(r.created_at).getTime();
+    return c ? c + ONE_DAY_MS : 0;
+  }
+
+  function fetchPosts() {
+    return sb.from(POSTS_TABLE).select('*').order('created_at', { ascending: false })
+      .then(function (res) {
+        if (res.error) throw res.error;
+        var data = res.data || [];
+        var json = JSON.stringify(data);
+        var changed = json !== lastPostsJson;
+        lastPostsJson = json;
+        allPosts = data;
+        setSyncStatus('🟢 Đã đồng bộ — mọi người đều thấy danh sách tin giống nhau.', false);
+        if (changed) renderNews(); // dữ liệu không đổi thì không vẽ lại (tránh reset ô chọn ngày gia hạn)
+      })
+      .catch(function (err) {
+        setSyncStatus('⚠️ Lỗi kết nối Supabase: ' + (err && err.message ? err.message : err), true);
+      });
+  }
+
+  // Gia hạn 1 tin (chỉ Admin): hết hạn = bây giờ + N ngày.
+  function extendPost(id, days) {
+    var exp = new Date(Date.now() + days * ONE_DAY_MS).toISOString();
+    return sb.from(POSTS_TABLE).update({ expires_at: exp }).eq('id', id).select().then(function (res) {
+      if (res.error) throw res.error;
+      if (!res.data || !res.data.length) throw new Error('Không cập nhật được (kiểm tra cột expires_at và policy update của Admin).');
+    });
+  }
+
+  // Duyệt 1 bài đang chờ (chỉ Admin).
+  function approvePost(id) {
+    return sb.from(POSTS_TABLE).update({ approved: true }).eq('id', id).then(function (res) {
+      if (res.error) throw res.error;
+    });
+  }
+
+  function formatDate(iso) {
+    var d = new Date(iso);
+    if (isNaN(d.getTime())) return '';
+    return String(d.getDate()).padStart(2, '0') + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + d.getFullYear() +
+      ' ' + String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+
+  function buildAuthorHtml(item) {
+    return item.author
+      ? '<div class="news-author"><span class="mini-avatar">' +
+          (item.author.trim().charAt(0).toUpperCase() || '?') + '</span>' +
+          '<span>' + item.author + (item.email ? ' · ' + item.email : '') + '</span></div>'
+      : '';
+  }
+
+  function buildFileHtml(item) {
+    if (!item.file_url) return '';
+    var isImage = /\.(png|jpe?g|gif|webp)(\?.*)?$/i.test(item.file_url);
+    var html = isImage
+      ? '<a href="' + item.file_url + '" target="_blank" rel="noopener noreferrer"><img class="file-thumb" src="' + item.file_url + '" alt="Tệp đính kèm"></a>'
+      : '';
+    html += '<a class="news-file" href="' + item.file_url + '" target="_blank" rel="noopener noreferrer" download>📥 Tải tệp đính kèm</a>';
+    return html;
+  }
+
+  function buildNewsCard(item, index, expired) {
+    var card = document.createElement('div');
+    card.className = 'news-card' + (expired ? ' expired-card' : '');
+    if (!expired) {
+      card.dataset.created = item.created_at;
+      card.dataset.expires = getExpiry(item);
+    }
+    card.style.animationDelay = (index * 0.05) + 's';
+
+    var pending = item.approved === false;
+    var pendingBadge = pending ? '<span class="pending-badge">⏳ Chờ Admin duyệt (tệp &gt;10MB)</span>' : '';
+    var approveHtml = (pending && isAdmin() && !expired)
+      ? '<button type="button" class="approve-btn" data-id="' + item.id + '">✅ Duyệt bài</button>'
+      : '';
+    var deleteHtml = (isAdmin() && !expired)
+      ? '<button type="button" class="admin-delete" data-id="' + item.id + '">🗑️ Xóa (Admin)</button>'
+      : '';
+
+    card.innerHTML =
+      '<div class="news-top"><p class="news-title"></p><span class="news-date">' + formatDate(item.created_at) + '</span></div>' +
+      pendingBadge +
+      buildAuthorHtml(item) +
+      '<p class="news-desc"></p>' +
+      buildFileHtml(item) +
+      (expired
+        ? '<span class="expired-label">⌛ Đã hết hạn lúc ' + formatDate(new Date(getExpiry(item)).toISOString()) + '</span>' +
+          '<div class="extend-row">' +
+            '<select class="extend-select" aria-label="Thời gian gia hạn">' +
+              '<option value="1">Gia hạn 1 ngày</option><option value="3">Gia hạn 3 ngày</option>' +
+              '<option value="7">Gia hạn 7 ngày</option><option value="30">Gia hạn 30 ngày</option>' +
+            '</select>' +
+            '<button type="button" class="approve-btn extend-btn">⏫ Gia hạn</button>' +
+            '<button type="button" class="admin-delete perm-delete-btn">🗑️ Xóa vĩnh viễn</button>' +
+          '</div>'
+        : '<div class="countdown-row"><div class="countdown-track"><div class="countdown-fill"></div></div><span class="countdown-label"></span></div>') +
+      approveHtml + deleteHtml;
+
+    card.querySelector('.news-title').textContent = item.title || '(Không có tiêu đề)';
+    card.querySelector('.news-desc').textContent = item.content || '';
+
+    var approveBtn = card.querySelector('.approve-btn');
+    if (approveBtn) {
+      approveBtn.addEventListener('click', function () {
+        approveBtn.disabled = true; approveBtn.textContent = 'Đang duyệt...';
+        approvePost(item.id).then(fetchPosts).catch(function (err) {
+          alert('Duyệt thất bại: ' + err.message);
+          approveBtn.disabled = false; approveBtn.textContent = '✅ Duyệt bài';
+        });
+      });
+    }
+
+    var extSel = card.querySelector('.extend-select');
+    if (extSel) {
+      if (extendChoice[item.id]) extSel.value = extendChoice[item.id];
+      extSel.addEventListener('change', function () { extendChoice[item.id] = extSel.value; });
+    }
+
+    var extendBtn = card.querySelector('.extend-btn');
+    if (extendBtn) {
+      extendBtn.addEventListener('click', function () {
+        var days = Number(card.querySelector('.extend-select').value) || 1;
+        extendBtn.disabled = true; extendBtn.textContent = 'Đang gia hạn...';
+        extendPost(item.id, days).then(fetchPosts).catch(function (err) {
+          alert('Gia hạn thất bại: ' + err.message);
+          extendBtn.disabled = false; extendBtn.textContent = '⏫ Gia hạn';
+        });
+      });
+    }
+
+    var permDelBtn = card.querySelector('.perm-delete-btn');
+    if (permDelBtn) {
+      permDelBtn.addEventListener('click', function () {
+        if (!confirm('Xóa VĨNH VIỄN tin này (kèm tệp đính kèm)? Không thể hoàn tác.')) return;
+        permDelBtn.disabled = true; permDelBtn.textContent = 'Đang xóa...';
+        deletePostRow(item.id, item.file_url).then(fetchPosts).catch(function (err) {
+          alert('Xóa thất bại: ' + err.message);
+          permDelBtn.disabled = false; permDelBtn.textContent = '🗑️ Xóa vĩnh viễn';
+        });
+      });
+    }
+
+    var delBtn = card.querySelector('.admin-delete:not(.perm-delete-btn)');
+    if (delBtn) {
+      delBtn.addEventListener('click', function () {
+        delBtn.disabled = true; delBtn.textContent = 'Đang xóa...';
+        deletePostRow(item.id, item.file_url).then(fetchPosts).catch(function (err) {
+          alert('Xóa thất bại: ' + err.message);
+          delBtn.disabled = false; delBtn.textContent = '🗑️ Xóa (Admin)';
+        });
+      });
+    }
+    return card;
+  }
+
+  function renderNews() {
+    var now = Date.now();
+    var live = [], expired = [];
+    allPosts.forEach(function (r) {
+      var exp = getExpiry(r);
+      if (!exp) return;
+      if (exp > now) {
+        if (r.approved === false && !isAdmin()) return; // bài chờ duyệt chỉ Admin thấy
+        live.push(r);
+      } else if (isAdmin()) {
+        expired.push(r);
+      }
+    });
+    livePosts = live;
+
+    var listEl = document.getElementById('newsList');
+    listEl.innerHTML = '';
+    if (livePosts.length === 0) {
+      var empty = document.createElement('div');
+      empty.className = 'news-empty';
+      empty.textContent = 'Chưa có tin nào còn hạn. Hãy là người đầu tiên đăng tin! 👇';
+      listEl.appendChild(empty);
+    } else {
+      livePosts.forEach(function (item, i) { listEl.appendChild(buildNewsCard(item, i, false)); });
+    }
+    updateCountdowns();
+    renderExpired(expired);
+  }
+
+  function renderExpired(expired) {
+    var panel = document.getElementById('expiredPanel');
+    var listEl = document.getElementById('expiredList');
+    if (!isAdmin()) { panel.style.display = 'none'; listEl.innerHTML = ''; return; }
+    panel.style.display = '';
+    listEl.innerHTML = '';
+    if (!expired.length) {
+      var empty = document.createElement('div');
+      empty.className = 'news-empty';
+      empty.textContent = 'Không có tin nào hết hạn.';
+      listEl.appendChild(empty);
+      return;
+    }
+    expired.forEach(function (item, i) { listEl.appendChild(buildNewsCard(item, i, true)); });
+  }
+
+  function formatRemaining(ms) {
+    if (ms <= 0) return 'Sắp ẩn khỏi danh sách...';
+    var totalMin = Math.floor(ms / 60000);
+    var h = Math.floor(totalMin / 60);
+    var m = totalMin % 60;
+    var d = Math.floor(h / 24);
+    if (d >= 1) return 'Còn ' + d + ' ngày ' + (h % 24) + ' giờ sẽ tự ẩn';
+    return 'Còn ' + h + ' giờ ' + m + ' phút sẽ tự ẩn';
+  }
+
+  function updateCountdowns() {
+    var now = Date.now();
+    var justExpired = false;
+    document.querySelectorAll('.news-card[data-expires]').forEach(function (card) {
+      var created = new Date(card.dataset.created).getTime();
+      var expires = Number(card.dataset.expires);
+      if (!created || !expires) return;
+      var remaining = expires - now;
+      if (remaining <= 0) justExpired = true;
+      var total = Math.max(1, expires - created);
+      var pct = Math.max(0, Math.min(100, ((now - created) / total) * 100));
+      var fill = card.querySelector('.countdown-fill');
+      var label = card.querySelector('.countdown-label');
+      if (fill) fill.style.width = pct + '%';
+      if (label) label.textContent = formatRemaining(remaining);
+    });
+    // Có tin vừa hết hạn: lọc lại để tin chuyển sang mục "Tin đã hết hạn" (Admin).
+    if (justExpired) renderNews();
+  }
+
+  /* ============ FORM THÊM TIN MỚI ============ */
+  var fileInput = document.getElementById('newsFile');
+  var fileHint = document.getElementById('fileHint');
+  var submitBtn = document.getElementById('submitBtn');
+  var DEFAULT_FILE_HINT = 'Tối đa 50MB/tệp. Tệp trên 10MB sẽ cần Admin duyệt trước khi hiển thị công khai.';
+
+  fileInput.addEventListener('change', function () {
+    var f = fileInput.files[0];
+    fileHint.classList.remove('warn');
+    if (!f) { fileHint.textContent = DEFAULT_FILE_HINT; return; }
+    if (f.size > MAX_FILE_BYTES) {
+      fileHint.textContent = 'Tệp "' + f.name + '" vượt quá 50MB, vui lòng chọn tệp nhỏ hơn.';
+      fileHint.classList.add('warn');
+      fileInput.value = '';
+    } else if (f.size > APPROVAL_THRESHOLD_BYTES) {
+      fileHint.textContent = 'Đã chọn: ' + f.name + ' (' + (f.size / 1024 / 1024).toFixed(1) + ' MB) — tệp trên 10MB nên tin sẽ cần Admin duyệt trước khi hiển thị.';
+      fileHint.classList.add('warn');
+    } else {
+      fileHint.textContent = 'Đã chọn: ' + f.name + ' (' + (f.size / 1024 / 1024).toFixed(1) + ' MB)';
+    }
+  });
+
+  document.getElementById('newsForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (!currentUser) return;
+    var title = document.getElementById('newsTitle').value.trim();
+    var content = document.getElementById('newsContent').value.trim();
+    if (!title || !content) return;
+    var file = fileInput.files[0];
+    var formEl = e.target;
+
+    if (file && file.size > MAX_FILE_BYTES) {
+      fileHint.textContent = 'Tệp "' + file.name + '" vượt quá 50MB, vui lòng chọn tệp nhỏ hơn.';
+      fileHint.classList.add('warn');
+      return;
+    }
+
+    var needsApproval = !!(file && file.size > APPROVAL_THRESHOLD_BYTES);
+
+    function finishSaving(fileUrl) {
+      var row = {
+        title: title, content: content, file_url: fileUrl || null,
+        author: currentUser.name, email: currentUser.email,
+        created_at: new Date().toISOString(),
+        approved: !needsApproval
+      };
+      sb.from(POSTS_TABLE).insert([row]).then(function (res) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Đăng tin';
+        if (res.error) {
+          fileHint.textContent = 'Lỗi khi đăng lên Supabase: ' + res.error.message;
+          fileHint.classList.add('warn');
+          return;
+        }
+        formEl.reset();
+        fileHint.textContent = needsApproval
+          ? 'Đã ghi nhận! Tin đang chờ Admin duyệt vì tệp đính kèm trên 10MB, sẽ hiển thị công khai sau khi được duyệt.'
+          : DEFAULT_FILE_HINT;
+        fileHint.classList.toggle('warn', needsApproval);
+        fetchPosts();
+      });
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Đang đăng...';
+
+    if (file) {
+      fileHint.textContent = 'Đang tải tệp lên Supabase Storage...';
+      fileHint.classList.remove('warn');
+      uploadFileAndGetUrl(file).then(finishSaving).catch(function (err) {
+        fileHint.textContent = 'Lỗi khi tải tệp: ' + (err && err.message ? err.message : err);
+        fileHint.classList.add('warn');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Đăng tin';
+      });
+    } else {
+      finishSaving(null);
+    }
+  });
+
+  /* ============ ĐỒNG BỘ THỜI GIAN THỰC ============ */
+  try {
+    sb.channel('posts-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: POSTS_TABLE }, function () { fetchPosts(); })
+      .subscribe();
+  } catch (e) {
+    console.warn('Không bật được Realtime, sẽ dùng chế độ làm mới định kỳ.', e);
+  }
+  setInterval(fetchPosts, 20000);
+  setInterval(updateCountdowns, 30000);
+
+  /* ============ HIỆU ỨNG CUỘN TRANG (scroll reveal) ============ */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) { entry.target.classList.add('in-view'); io.unobserve(entry.target); }
+      });
+    }, { threshold: .12 });
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add('in-view'); });
+  }
+  // Lớp bảo hiểm: nếu vì lý do gì đó (trình duyệt cũ, phần tử ẩn lúc quan sát...)
+  // hiệu ứng cuộn không kích hoạt, tự hiện toàn bộ nội dung sau 1.5 giây để
+  // trang không bao giờ bị "trắng/kẹt" vĩnh viễn.
+  setTimeout(function () {
+    document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in-view'); });
+  }, 1500);
+
+  /* ================================================================
+     TRANG CHI TIẾT THÀNH VIÊN — CHẠY 1 LẦN TRONG SUPABASE SQL EDITOR:
+
+       alter table members add column if not exists detail text;
+       alter table members add column if not exists skills jsonb;
+
+     (Policy "Chỉ admin được sửa thành viên" ở trên đã cho Admin ghi 2 cột mới.)
+     Ảnh phóng to dùng lại file <id>.jpg và cùng quy tắc riêng tư với thẻ. */
+
+  var DEFAULT_SKILLS = [
+    { label: 'Học tập', value: 5 }, { label: 'Thể thao', value: 5 }, { label: 'Nghệ thuật', value: 5 },
+    { label: 'Giao tiếp', value: 5 }, { label: 'Sáng tạo', value: 5 }
+  ];
+  var detailId = null, detailDirty = false, detailSkills = [];
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function normSkills(raw) {
+    var arr = raw;
+    if (typeof arr === 'string') { try { arr = JSON.parse(arr); } catch (e) { arr = null; } }
+    var out = [];
+    for (var i = 0; i < 5; i++) {
+      var s = (Array.isArray(arr) && arr[i]) || DEFAULT_SKILLS[i];
+      var v = Number(s.value); if (isNaN(v)) v = 0;
+      out.push({
+        label: String(s.label == null ? DEFAULT_SKILLS[i].label : s.label),
+        value: Math.max(0, Math.min(10, v))
+      });
+    }
+    return out;
+  }
+
+  // Biểu đồ mạng nhện ngũ giác, thang 0–10 (5 vòng: 2, 4, 6, 8, 10)
+  function radarSvg(skills) {
+    var cx = 280, cy = 215, R = 140, n = 5;
+    function pt(i, r) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+    }
+    function poly(rs) {
+      return rs.map(function (r, i) { var q = pt(i, r); return q[0].toFixed(1) + ',' + q[1].toFixed(1); }).join(' ');
+    }
+    var svg = '<svg class="radar-svg" viewBox="0 0 560 440" role="img" aria-label="Biểu đồ phát triển">', i, k;
+    for (k = 1; k <= 5; k++) {
+      var r = R * k / 5;
+      svg += '<polygon class="radar-ring" points="' + poly([r, r, r, r, r]) + '"/>';
+    }
+    for (i = 0; i < n; i++) {
+      var e = pt(i, R);
+      svg += '<line class="radar-axis" x1="' + cx + '" y1="' + cy + '" x2="' + e[0].toFixed(1) + '" y2="' + e[1].toFixed(1) + '"/>';
+    }
+    for (k = 1; k <= 5; k++) {
+      svg += '<text class="radar-tick" x="' + cx + '" y="' + (cy - R * k / 5 - 4) + '" text-anchor="middle">' + (k * 2) + '</text>';
+    }
+    svg += '<polygon class="radar-area" points="' + poly(skills.map(function (s) { return R * s.value / 10; })) + '"/>';
+    skills.forEach(function (s, i) {
+      var q = pt(i, R * s.value / 10);
+      svg += '<circle class="radar-dot" cx="' + q[0].toFixed(1) + '" cy="' + q[1].toFixed(1) + '" r="6"/>';
+      var l = pt(i, R + 24);
+      var anchor = l[0] < cx - 6 ? 'end' : (l[0] > cx + 6 ? 'start' : 'middle');
+      var y = i === 0 ? l[1] - 14 : (i >= 3 ? l[1] + 4 : l[1] - 6);
+      svg += '<text class="radar-label" x="' + l[0].toFixed(1) + '" y="' + y.toFixed(1) + '" text-anchor="' + anchor + '">' + esc(s.label) +
+        '<tspan class="radar-val" x="' + l[0].toFixed(1) + '" dy="1.35em">' + s.value + '/10</tspan></text>';
+    });
+    return svg + '</svg>';
+  }
+
+  function drawRadar() {
+    var w = document.getElementById('radarWrap');
+    if (w) w.innerHTML = radarSvg(detailSkills);
+  }
+
+  function renderDetail() {
+    var box = document.getElementById('detailView');
+    if (!box || detailId == null) return;
+    if (detailDirty) return; // đang sửa dở: không ghi đè
+    var m = null;
+    members.forEach(function (x) { if (Number(x.id) === detailId) m = x; });
+    var backHtml = '<button type="button" class="back-link-btn" id="detailBack">← Quay lại danh sách</button>';
+    if (!m) {
+      box.innerHTML = backHtml + '<div class="news-empty">' + (members.length ? 'Không tìm thấy thành viên này.' : 'Đang tải thông tin...') + '</div>';
+      document.getElementById('detailBack').onclick = function () { location.hash = ''; };
+      return;
+    }
+    var admin = isAdmin();
+    var showPhoto = canSeeRealPhotos();
+    detailSkills = normSkills(m.skills);
+
+    var photo = '<div class="detail-photo">' +
+      (showPhoto ? '<img src="' + m.id + '.jpg" alt="Ảnh ' + esc(m.name) + '" onerror="this.onerror=null;this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\';">' : '') +
+      '<span class="photo-fallback" style="display:' + (showPhoto ? 'none' : 'flex') + ';">' + esc(m.id) + '</span></div>';
+
+    var info = admin
+      ? '<div class="detail-info">' +
+          '<div class="field"><label for="dtName">Tên</label><input type="text" id="dtName" class="dt-input" value="' + esc(m.name) + '"></div>' +
+          '<div class="field"><label for="dtBio">Giới thiệu ngắn</label><input type="text" id="dtBio" class="dt-input" value="' + esc(m.bio) + '"></div>' +
+          '<div class="field"><label for="dtDetail">Nội dung cá nhân chi tiết</label><textarea id="dtDetail" class="dt-input dt-detail" placeholder="Viết chi tiết về thành viên này...">' + esc(m.detail) + '</textarea></div>' +
+        '</div>'
+      : '<div class="detail-info"><h2>' + esc(m.name) + '</h2><p class="detail-bio">' + esc(m.bio) + '</p>' +
+          '<p class="detail-text">' + (m.detail ? esc(m.detail) : '<span style="color:var(--muted)">Chưa có nội dung chi tiết.</span>') + '</p></div>';
+
+    var chart = '<section class="detail-chart"><h3>🕸️ Biểu đồ phát triển</h3><div id="radarWrap" class="radar-wrap"></div>';
+    if (admin) {
+      chart += '<div id="skillRows">';
+      detailSkills.forEach(function (s, i) {
+        chart += '<div class="skill-row">' +
+          '<input type="text" class="sk-label" data-i="' + i + '" maxlength="24" value="' + esc(s.label) + '" aria-label="Tên trục ' + (i + 1) + '">' +
+          '<input type="range" class="sk-range" data-i="' + i + '" min="0" max="10" step="0.5" value="' + s.value + '">' +
+          '<input type="number" class="sk-num" data-i="' + i + '" min="0" max="10" step="0.5" value="' + s.value + '">' +
+          '</div>';
+      });
+      chart += '</div><div class="detail-save-row"><span id="detailMsg" class="detail-msg">Thang điểm 0–10 (Admin chỉnh được tên trục và mức độ).</span>' +
+        '<button type="button" id="detailSaveBtn" class="submit-btn">💾 Lưu thay đổi</button></div>';
+    } else {
+      chart += '<div class="skill-legend">' + detailSkills.map(function (s) {
+        return '<div class="lg-row"><span>' + esc(s.label) + '</span><span class="lg-bar"><span class="lg-fill" style="display:block;width:' + (s.value * 10) + '%"></span></span><span class="lg-val">' + s.value + '/10</span></div>';
+      }).join('') + '</div>';
+    }
+    chart += '</section>';
+
+    box.innerHTML = backHtml + '<div class="detail-card">' + photo + info + '</div>' + chart;
+    document.getElementById('detailBack').onclick = function () { location.hash = ''; };
+    drawRadar();
+    if (!admin) return;
+
+    Array.prototype.forEach.call(box.querySelectorAll('.dt-input'), function (el) {
+      el.addEventListener('input', function () { detailDirty = true; });
+    });
+    var rowsEl = document.getElementById('skillRows');
+    rowsEl.addEventListener('input', function (ev) {
+      var t = ev.target, i = Number(t.getAttribute('data-i'));
+      if (isNaN(i)) return;
+      if (t.classList.contains('sk-label')) {
+        detailSkills[i].label = t.value;
+      } else {
+        var v = parseFloat(t.value); if (isNaN(v)) v = 0;
+        v = Math.max(0, Math.min(10, v));
+        detailSkills[i].value = v;
+        var other = rowsEl.querySelector((t.classList.contains('sk-range') ? '.sk-num' : '.sk-range') + '[data-i="' + i + '"]');
+        if (other) other.value = v;
+      }
+      detailDirty = true;
+      drawRadar();
+    });
+
+    var saveBtn = document.getElementById('detailSaveBtn');
+    var msg = document.getElementById('detailMsg');
+    saveBtn.addEventListener('click', function () {
+      if (!isAdmin()) return;
+      var payload = {
+        name: document.getElementById('dtName').value.trim(),
+        bio: document.getElementById('dtBio').value.trim(),
+        detail: document.getElementById('dtDetail').value.trim(),
+        skills: detailSkills.map(function (s) { return { label: (s.label || '').trim() || '—', value: s.value }; })
+      };
+      if (!payload.name) { msg.className = 'detail-msg err'; msg.textContent = 'Tên không được để trống.'; return; }
+      saveBtn.disabled = true; saveBtn.textContent = 'Đang lưu...';
+      sb.from('members').update(payload).eq('id', m.id).select().then(function (res) {
+        saveBtn.disabled = false; saveBtn.textContent = '💾 Lưu thay đổi';
+        if (res.error) {
+          msg.className = 'detail-msg err';
+          msg.textContent = 'Lưu thất bại: ' + res.error.message + (/column|detail|skills/i.test(res.error.message) ? ' — hãy chạy SQL thêm cột detail & skills (xem ghi chú trong mã).' : '');
+          return;
+        }
+        if (!res.data || !res.data.length) {
+          msg.className = 'detail-msg err';
+          msg.textContent = 'Không lưu được (kiểm tra policy update của Admin trên bảng members).';
+          return;
+        }
+        detailDirty = false;
+        msg.className = 'detail-msg'; msg.textContent = '✅ Đã lưu!';
+        fetchMembers();
+      });
+    });
+  }
+
+  var wasDetail = false;
+  function route() {
+    var h = location.hash.match(/^#thanh-vien\/(\d+)$/);
+    var home = document.getElementById('homeView'), dv = document.getElementById('detailView');
+    if (h) {
+      detailId = Number(h[1]); detailDirty = false; wasDetail = true;
+      home.style.display = 'none'; dv.style.display = 'block';
+      document.body.classList.add('detail-mode');
+      renderDetail();
+      window.scrollTo(0, 0);
+    } else {
+      detailId = null; detailDirty = false;
+      dv.style.display = 'none'; dv.innerHTML = ''; home.style.display = '';
+      document.body.classList.remove('detail-mode');
+      if (wasDetail) { wasDetail = false; var g = document.getElementById('memberGrid'); if (g) g.scrollIntoView({ block: 'start' }); }
+    }
+  }
+  window.addEventListener('hashchange', route);
+
+  /* ============ KHỞI ĐỘNG ============ */
+  document.getElementById('newsList').innerHTML =
+    '<div class="skeleton"></div><div class="skeleton"></div>';
+  renderAuthUI();
+  renderAddNewsPanel();
+  fetchMaintenanceStatus();
+  fetchPhotoStatus();
+  route();
+  fetchMembers();
+  fetchPosts();
+</script>
+</body>
+</html>
